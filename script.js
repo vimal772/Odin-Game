@@ -14,6 +14,14 @@ function getUserChoice(){
     alert("choose only from rock,paper,scissor");
     userChoice = prompt("Enter the value ");
     userChoice = userChoice.toLowerCase();
+    if(userChoice === " " || userChoice === ''){
+        alert("Enetr your choice in prompt Box");
+        return restart();
+    }
+    if(userChoice !== 'rock' && userChoice !== 'scissor' && userChoice !== 'paper'){
+        alert("choose only valid choice");
+        return restart();
+    }
     console.log("Your Choice "+userChoice)
     return userChoice; 
 }
@@ -54,4 +62,11 @@ function game(){
     checkLogic(choice,userChoice);
 }
 
+function restart(){
+    choice = '';
+    userChoice = '';
+    game();
+}
+
 game();
+// restart();
