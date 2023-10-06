@@ -4,16 +4,41 @@ let choice;
 let userChoice;
 let userFlag=0;
 let botFlag=0;
+let div = document.querySelector('#div');
+let result = document.createElement('h1');
+const body = document.querySelector('body');
 
 function getComputerChoice(){
     let c = Math.floor(Math.random() * 3);
     choice = str[c];
-    console.log("Bot's choice "+choice)
+    const para = document.createElement('p');
+    para.textContent = "Bots choice is "+choice;
+    div.appendChild(para);
     return choice;
 }
 
-function getUserChoice(){
-    userChoice = prompt("Enter the value ");
+function showChoice(){
+    const rock = document.querySelector('#rock');
+    rock.addEventListener('click',() => {
+        userChoice =  "rock";
+        getComputerChoice();
+        getUserChoice(userChoice);
+    });
+    const paper = document.querySelector('#paper');
+    paper.addEventListener('click',() => {
+        userChoice =  "paper";
+        getComputerChoice();
+        getUserChoice(userChoice);
+    });
+    const scissor = document.querySelector('#scissor');
+    scissor.addEventListener('click',() => {
+        userChoice =  "scissor";
+        getComputerChoice();
+        getUserChoice(userChoice);
+    });
+}
+
+function getUserChoice(userChoice){
     userChoice = userChoice.toLowerCase();
     if(userChoice === " " || userChoice === ''){
         alert("Enetr your choice in prompt Box");
@@ -23,50 +48,53 @@ function getUserChoice(){
         alert("choose only valid choice");
         return restart();
     }
-    console.log("Your Choice "+userChoice)
-    return userChoice; 
+    const para = document.createElement('p');
+    para.textContent = "Your Choice is "+userChoice;
+    div.appendChild(para);
+    return checkLogic(choice,userChoice); 
 }
 
 function checkLogic(choice,userChoice){
+    let para  = document.createElement('p');
     if(userChoice === "rock"){
         if(choice === "rock"){
-            console.log("Draw Due to Same choice selected");
+            para.textconntent = "Draw Due to Same choice selected";
         }else if(choice === "paper"){
-            console.log("Bot Wins by Choosing Paper");
+            para.textContent = "Bot Wins by Choosing Paper";
             botFlag++;
         }else{
-            console.log("User Wins Due to Bot's scissor choice");
+            para.textContent = "User Wins Due to Bot's scissor choice";
             userFlag++;
         }
     }
     else if(userChoice === "paper"){
         if(choice === "paper"){
-            console.log("Draw Due to Same choice selected");
+            para.textContent = "Draw Due to Same choice selected";
         }else if(choice === "scissor"){
-            console.log("Bot Wins by Choosing scissor");
+            para.textContent = "Bot Wins by Choosing scissor";
             botFlag++;
         }else{
-            console.log("User Wins Due to Bot's rock choice");
+            para.textContent = "User Wins Due to Bot's rock choice";
             userFlag ++;
         }
     }
     if(userChoice === "scissor"){
         if(choice === "scissor"){
-            console.log("Draw Due to Same choice selected");
+            para.textContent = "Draw Due to Same choice selected";
         }else if(choice === "rock"){
-            console.log("Bot Wins by Choosing rock");
+            para.textContent = "Bot Wins by Choosing rock";
             botFlag++;
         }else{
-            console.log("User Wins Due to Bot's paper choice");
+            para.textContent = "User Wins Due to Bot's paper choice";
             userFlag++;
         }
     }
+    div.appendChild(para);
+    return showScore(userChoice,choice);
 }
 
 function game(){
-    getComputerChoice();
-    getUserChoice();
-    checkLogic(choice,userChoice);
+    showChoice(userChoice);
 }
 
 function restart(){
@@ -75,23 +103,19 @@ function restart(){
     game();
 }
 function showScore(x,y){
-    if(x>y){
-        console.log("User Wins");
-    }else if(y>x){
-        console.log("Bot Wins");
-    }else{
-        console.log("draw");
+    if(x===5 || y===5){
+        console.log("GameOver");
+        if(x>y && x === 5){
+            result.textContent = "user wins by Acheiving 5 points";
+            body.insertBefore(result,'h1');
+        }else{
+            result.textContent = "Bots wins by acheiving 5 points";
+            body.insertBefore(result,'h1');
+        }
     }
 }
+// while(userFlag !==5 && botFlag !==5){
+//     game();
+// }
 
-function pointsScore(){
-    alert("choose only from rock,paper,scissor");
-    game();
-    game();
-    game();
-    console.log(userFlag);
-    console.log(botFlag);
-    showScore(userFlag,botFlag);
-}
-
-pointsScore();
+game();
