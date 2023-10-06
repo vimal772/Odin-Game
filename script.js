@@ -5,8 +5,7 @@ let userChoice;
 let userFlag=0;
 let botFlag=0;
 let div = document.querySelector('#div');
-let result = document.createElement('h1');
-const body = document.querySelector('body');
+let result = document.querySelector('#result');
 
 function getComputerChoice(){
     let c = Math.floor(Math.random() * 3);
@@ -56,41 +55,35 @@ function getUserChoice(userChoice){
 
 function checkLogic(choice,userChoice){
     let para  = document.createElement('p');
-    if(userChoice === "rock"){
-        if(choice === "rock"){
-            para.textconntent = "Draw Due to Same choice selected";
-        }else if(choice === "paper"){
-            para.textContent = "Bot Wins by Choosing Paper";
-            botFlag++;
-        }else{
-            para.textContent = "User Wins Due to Bot's scissor choice";
-            userFlag++;
-        }
-    }
-    else if(userChoice === "paper"){
-        if(choice === "paper"){
-            para.textContent = "Draw Due to Same choice selected";
-        }else if(choice === "scissor"){
-            para.textContent = "Bot Wins by Choosing scissor";
-            botFlag++;
-        }else{
-            para.textContent = "User Wins Due to Bot's rock choice";
-            userFlag ++;
-        }
-    }
-    if(userChoice === "scissor"){
-        if(choice === "scissor"){
-            para.textContent = "Draw Due to Same choice selected";
-        }else if(choice === "rock"){
-            para.textContent = "Bot Wins by Choosing rock";
-            botFlag++;
-        }else{
-            para.textContent = "User Wins Due to Bot's paper choice";
-            userFlag++;
-        }
+    if(userChoice === 'rock' && choice === 'scissor'){
+        para.textContent = "User Wins";
+        userFlag++;
+    }else if(userChoice === 'paper' && choice === 'rock'){
+        para.textContent = "User Wins";
+        userFlag++;
+    }else if(userChoice === 'scissor' && choice === 'paper'){
+        para.textContent = "User Wins";
+        userFlag++;
+    }else if(userChoice === choice){
+        para.textContent = "Draw";
+    }else{
+        para.textContent = "Bot Wins";
+        botFlag++;
     }
     div.appendChild(para);
-    return showScore(userChoice,choice);
+    console.log(userFlag);
+    console.log(botFlag);
+
+    let score = document.createElement('h1');
+    if(userFlag === 5 && botFlag < userFlag){
+        score.textContent = "user wins by Acheiving 5 points";
+        result.appendChild(score);
+        return restart();
+    }else if(botFlag === 5 && userFlag<botFlag){
+        score.textContent = "Bots wins by acheiving 5 points";
+        result.appendChild(score);
+        return restart();
+    }
 }
 
 function game(){
@@ -100,22 +93,8 @@ function game(){
 function restart(){
     choice = '';
     userChoice = '';
+    userFlag = 0;
+    botFlag = 0;
     game();
 }
-function showScore(x,y){
-    if(x===5 || y===5){
-        console.log("GameOver");
-        if(x>y && x === 5){
-            result.textContent = "user wins by Acheiving 5 points";
-            body.insertBefore(result,'h1');
-        }else{
-            result.textContent = "Bots wins by acheiving 5 points";
-            body.insertBefore(result,'h1');
-        }
-    }
-}
-// while(userFlag !==5 && botFlag !==5){
-//     game();
-// }
-
 game();
